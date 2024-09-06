@@ -15,7 +15,9 @@ local_settings.py
 staticfiles/
 
 # Ignore media files folder (if you have one)
-pictures/
+.jpeg
+.png
+.svg
 
 # ignore error log
 *.log
