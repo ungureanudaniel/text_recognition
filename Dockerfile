@@ -1,22 +1,19 @@
 # Use the official Python image with OpenCV installed
-FROM python:3.10-slim
+FROM python:3.12-slim
 
 # Upgrade pip
 RUN pip install --upgrade pip
 
-RUN apt-get update && \
-    apt-get install -y \
-    software-properties-common \
-    lsb-release \
-    && add-apt-repository universe \
-    && apt-get update && \
-    apt-get install -y \
-    python3-opencv \
-    libopencv-dev \
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
     tesseract-ocr \
     libtesseract-dev \
-    && apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    libleptonica-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set Tesseract path (Linux container)
+ENV TESSDATA_PREFIX=/usr/share/tesseract-ocr/4.00/tessdata
+ENV pytesseract.pytesseract.tesseract_cmd=/usr/bin/tesseract
 
 # Set the working directory
 WORKDIR /app
@@ -26,10 +23,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the application code
-COPY /app ./app
-
-# Ensure image file is copied if necessary
-COPY pictures/pct-dichiu-t.58-1117.10.jpeg .
+COPY . .
 
 # Run the Python script
 CMD ["python", "app/main.py"]
