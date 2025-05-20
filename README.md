@@ -28,14 +28,23 @@ Extracts geographic coordinates from images using OCR (Optical Character Recogni
     docker run -v $(pwd)/images:/app/images coordinate-extractor python main.py images/your_image.jpg
 ## Project structure
 text_recognition/
-├── images/                  # Folder for input images
-├── outputs/                 # Generated output files
+│
+├── images/ # Folder for input images
+│ └── example.jpg # Sample image file
+│
+├── outputs/ # Generated output files
+│ └── coordinates.csv # Output CSV with extracted coordinates
+│
 ├── app/
-│   ├── main.py              # Main application script
-│   └── ...                 # Other modules
-├── Dockerfile              # Docker configuration
-├── requirements.txt        # Python dependencies
-└── README.md              # This file
+│ ├── init.py # Python package marker
+│ ├── main.py # Main application script
+│ ├── image_processor.py # Image processing functions
+│ └── coordinate_utils.py # Coordinate extraction utilities
+│
+├── Dockerfile # Docker configuration
+├── requirements.txt # Python dependencies
+├── README.md # Project documentation
+└── .dockerignore # Files to exclude from Docker builds
 ## Expected output
 Raw OCR Output: Sample text with coordinates (12.345, -67.890)
 Found Coordinates: [('12.345', '-67.890')]
